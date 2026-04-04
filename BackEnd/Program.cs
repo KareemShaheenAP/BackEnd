@@ -1,4 +1,5 @@
 using BackEnd.Data;
+using BackEnd.Helpers;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDBContext>(x => x.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]));
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
