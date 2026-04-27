@@ -2,6 +2,7 @@
 using BackEnd.Data;
 using BackEnd.DTO.Product;
 using BackEnd.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,8 +20,9 @@ namespace BackEnd.Controllers
             _context = context;
             _mapper = mapper;
         }
-        [HttpGet]
         // get all products from the database and return them as a response
+        [Authorize(Roles = "Admin,Manager,User")]
+        [HttpGet]  
         public async Task<IActionResult> GetAll()
         {
             var products = await _context.Products.ToListAsync();
@@ -29,6 +31,7 @@ namespace BackEnd.Controllers
             return Ok(productDTOs);
         }
         // Get a product by its ID from the database and return it as a response
+        [Authorize(Roles = "Admin,Manager,User")]
         [HttpGet("{id}")]
         public async Task<IActionResult> Getid(Guid id)
         {
@@ -40,6 +43,7 @@ namespace BackEnd.Controllers
             return Ok(product);
         }
         // soft delete a product by its ID from the database and return a response
+        [Authorize(Roles = "Admin,Manager")]
         [HttpDelete("SoftDelete/{id}")]
         public async Task<IActionResult> SoftDelete(Guid id)
         {
@@ -54,6 +58,7 @@ namespace BackEnd.Controllers
             return Ok(product);
         }
         // Hard delete a product by its ID from the database and return a response
+        [Authorize(Roles = "Admin,Manager")]
         [HttpDelete("HardDelete/{id}")]
         public async Task<IActionResult> HardDelete(Guid id)
         {
@@ -67,6 +72,7 @@ namespace BackEnd.Controllers
             return Ok(product);
         }
         // Add a new product to the database using the AddProduct DTO and return a response
+        [Authorize(Roles = "Admin,Manager")]
         [HttpPost]
         public async Task<IActionResult> AddProduct([FromForm] AddProduct product)
         {
@@ -85,6 +91,7 @@ namespace BackEnd.Controllers
             return Ok(product);
         }
         // Update a product by its ID from the database using the AddProduct DTO and return a response
+        [Authorize(Roles = "Admin,Manager")]
         [HttpPut]
         public async Task<IActionResult> UpdateProduct(Guid id, [FromForm] EditProduct product)
         {

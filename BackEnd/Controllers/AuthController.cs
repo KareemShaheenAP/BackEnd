@@ -36,7 +36,7 @@ namespace BackEnd.Controllers
         /// successful; otherwise, returns 400 Bad Request with error details.</returns>
         [HttpPost("Register")]
         [AllowAnonymous]
-        public async Task<IActionResult> Register([FromBody] Register dto)
+        public async Task<IActionResult> Register([FromForm] Register dto)
         {
             if (!ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace BackEnd.Controllers
         /// validation errors.</returns>
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<ActionResult<AuthResponse>> Login([FromBody] Login dto)
+        public async Task<ActionResult<AuthResponse>> Login([FromForm] Login dto)
         {
             if (!ModelState.IsValid)
             {
